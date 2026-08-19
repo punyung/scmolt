@@ -1,0 +1,45 @@
+{
+  "schema_version": "scmolt.benchmark.v1",
+  "status": "complete",
+  "dataset": "GSE194122 BMMC Multiome",
+  "baseline": "scMIDAS-1000",
+  "candidate": "scMoLT Cell C",
+  "seed": 1234,
+  "epochs": 1000,
+  "mask_percentages": [
+    20,
+    40,
+    60,
+    80
+  ],
+  "label_key": "cell_type_l1",
+  "leakage_audit_status": "pass",
+  "truth_opened_during_training_or_prediction": false,
+  "directional_comparison_counts": {
+    "scMoLT Cell C": 39,
+    "scMIDAS-1000": 17
+  },
+  "imputation_directional_comparison_counts": {
+    "scMoLT Cell C": 28,
+    "scMIDAS-1000": 4
+  },
+  "files": {
+    "scmolt_metrics.csv": {
+      "sha256": "8f5b86aea991acf8124e987d236cd00cd35266edd1856fedacb10a97fb85b9ed"
+    },
+    "comparison_wide.csv": {
+      "sha256": "771f736b4b2bf6b5136746bd7f465d89bd7e5d1d5db90d6bec420e638c2ed424"
+    },
+    "comparison_long.csv": {
+      "sha256": "5d0e9e239a6ff5c45135596e785101a082c48a9a1c6c06f6e7cfc13492141adc"
+    }
+  },
+  "excluded": [
+    "cell identifiers",
+    "cell-level predictions",
+    "latents",
+    "labels",
+    "hidden truth",
+    "input matrices"
+  ]
+}

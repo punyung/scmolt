@@ -1,0 +1,13 @@
+name: scmolt
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - anndata==0.10.8
+      - numpy==1.26.4
+      - pandas==2.3.3
+      - scmidas==0.1.13
+      - torch==2.8.0
+      - -e .

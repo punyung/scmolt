@@ -1,0 +1,47 @@
+{
+  "schema_version": "scmolt.features.v1",
+  "order_is_architecture_critical": true,
+  "modalities": {
+    "rna": {
+      "path": "feat_names_rna.csv",
+      "rows": 4000,
+      "bytes": 48194,
+      "sha256": "d6f3cf599aafc3aeedb378fc8565450dca39181fba2a738cae620cc00e7b95f4"
+    },
+    "atac": {
+      "path": "feat_names_atac.csv",
+      "rows": 50000,
+      "bytes": 1481759,
+      "sha256": "76101dffea1e57cc3e5477a942bfc40c76fcd7c8f1ab23805fe81f8b730c25e1",
+      "chunk_dims": [
+        5091,
+        2226,
+        2686,
+        2584,
+        909,
+        1714,
+        1686,
+        2158,
+        3198,
+        778,
+        3194,
+        3503,
+        1510,
+        555,
+        1442,
+        2805,
+        1631,
+        2142,
+        2938,
+        2314,
+        1812,
+        2062,
+        1048,
+        4,
+        3,
+        5,
+        2
+      ]
+    }
+  }
+}

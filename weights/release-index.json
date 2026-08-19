@@ -1,0 +1,47 @@
+{
+  "schema_version": "scmolt.release-index.v1",
+  "repository": "punyung/scmolt",
+  "tag": "v0.1.0",
+  "checkpoint_format": "trackc_midas_cycle_model_state_v1",
+  "assets": [
+    {
+      "condition": "mask20",
+      "mask_percent": 20,
+      "epoch_completed": 1000,
+      "seed": 1234,
+      "filename": "scmolt-cell-c-bmmc-mask20-seed1234-epoch1000.pt",
+      "bytes": 94234219,
+      "sha256": "ce169f3fdaa3edd333e9f284d4c682eea86570d39738095854c46e27fc208cfd"
+    },
+    {
+      "condition": "mask40",
+      "mask_percent": 40,
+      "epoch_completed": 1000,
+      "seed": 1234,
+      "filename": "scmolt-cell-c-bmmc-mask40-seed1234-epoch1000.pt",
+      "bytes": 94234219,
+      "sha256": "374722f55461045f8cc8b544279fbc12fa0170f3d8fed67710e1f7c7e0069f11"
+    },
+    {
+      "condition": "mask60",
+      "mask_percent": 60,
+      "epoch_completed": 1000,
+      "seed": 1234,
+      "filename": "scmolt-cell-c-bmmc-mask60-seed1234-epoch1000.pt",
+      "bytes": 94234219,
+      "sha256": "59c24f8b66ba9fd7cb9cadb0b3ae400e5a1587d77668312a24cfacc4f8c5c9c1"
+    },
+    {
+      "condition": "mask80",
+      "mask_percent": 80,
+      "epoch_completed": 1000,
+      "seed": 1234,
+      "filename": "scmolt-cell-c-bmmc-mask80-seed1234-epoch1000.pt",
+      "bytes": 94234219,
+      "sha256": "58e3ae6aee1152db86b47b91a95a8366fe0c74831ccb920b7f9e3cad1a4562f0"
+    }
+  ],
+  "release_assets_are_not_git_files": true,
+  "optimizer_state_included": false,
+  "replay_state_included": false
+}

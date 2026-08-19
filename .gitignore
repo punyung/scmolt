@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.cache/
+.coverage
+.pytest_cache/
+.venv/
+build/
+dist/
+
+# Model weights are GitHub Release assets, never Git objects.
+*.ckpt
+*.pt
+*.pth
+weights/assets/
+
+# Inputs, predictions, labels, and evaluator-only truth are not distributed.
+data/
+predictions/
+truth/
+*.h5
+*.h5ad
+*.loom
+*.npy
+*.npz
+*.zarr/

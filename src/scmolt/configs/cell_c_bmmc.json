@@ -1,0 +1,184 @@
+{
+  "schema_version": "scmolt.pretrained.v1",
+  "model_id": "scmolt-cell-c-bmmc",
+  "display_name": "scMoLT Cell C (BMMC RNA-mask sensitivity)",
+  "architecture": "scmolt.trackc.TrackCMIDASCycle",
+  "checkpoint_format": "trackc_midas_cycle_model_state_v1",
+  "scmidas_version": "0.1.13",
+  "training": {
+    "dataset": "GSE194122 BMMC Multiome",
+    "epochs": 1000,
+    "seed": 1234,
+    "batches": 3,
+    "active_modalities": [
+      "rna",
+      "atac"
+    ],
+    "profile": "d40_missadv125_pairanchor_feature_remask25_tune",
+    "method_slug": "trackc_w14_d40_c3_missadv125_pairanchor_feature_remask25_tune",
+    "mask_conditions_percent": [
+      20,
+      40,
+      60,
+      80
+    ]
+  },
+  "feature_dims": {
+    "rna": [
+      4000
+    ],
+    "atac": [
+      5091,
+      2226,
+      2686,
+      2584,
+      909,
+      1714,
+      1686,
+      2158,
+      3198,
+      778,
+      3194,
+      3503,
+      1510,
+      555,
+      1442,
+      2805,
+      1631,
+      2142,
+      2938,
+      2314,
+      1812,
+      2062,
+      1048,
+      4,
+      3,
+      5,
+      2
+    ]
+  },
+  "feature_totals": {
+    "rna": 4000,
+    "atac": 50000
+  },
+  "feature_contract": {
+    "rna": {
+      "path": "features/feat_names_rna.csv",
+      "rows": 4000,
+      "bytes": 48194,
+      "sha256": "d6f3cf599aafc3aeedb378fc8565450dca39181fba2a738cae620cc00e7b95f4"
+    },
+    "atac": {
+      "path": "features/feat_names_atac.csv",
+      "rows": 50000,
+      "bytes": 1481759,
+      "sha256": "76101dffea1e57cc3e5477a942bfc40c76fcd7c8f1ab23805fe81f8b730c25e1"
+    }
+  },
+  "n_batches": 3,
+  "batch_class_dims": {
+    "rna": 3,
+    "atac": 3,
+    "joint": 3
+  },
+  "native_config_overrides": {
+    "lam_alignment": 0.0,
+    "lam_dsc": 40.0
+  },
+  "trackc_config": {
+    "variant": "C3",
+    "topology": "paired-abc",
+    "seed": 1234,
+    "epochs": 1000,
+    "anchor": "rna",
+    "dim_c": 32,
+    "dim_u": 2,
+    "encoder_hidden": [
+      1024,
+      128
+    ],
+    "decoder_hidden": [
+      128,
+      1024
+    ],
+    "batch_hidden": [
+      16,
+      16
+    ],
+    "batch_discriminator_hidden": [
+      128,
+      64
+    ],
+    "translator_hidden": [
+      128,
+      128
+    ],
+    "domain_discriminator_hidden": [
+      128,
+      128
+    ],
+    "atac_adapter_hidden": [
+      128,
+      32
+    ],
+    "dropout": 0.2,
+    "s_drop_rate": 0.1,
+    "batch_dropout": 0.1,
+    "logvar_min": -8.0,
+    "logvar_max": 8.0,
+    "lam_kld": 1.0,
+    "lam_kld_c": 1.0,
+    "lam_kld_u": 5.0,
+    "lam_recon": 1.0,
+    "lam_recon_s": 1000.0,
+    "lam_alignment": 0.0,
+    "lam_adv": 1.0,
+    "lam_dsc": 40.0,
+    "translated_batch_ce_scale": 0.625,
+    "missingness_batch_ce_scale": 1.25,
+    "paired_rna_anchor_consistency_weight": 5.0,
+    "emit_translated_batch_ce_metrics": true,
+    "lam_cycle": 30.0,
+    "lam_identity": 15.0,
+    "lam_cross_decode": 1.0,
+    "lam_domain": 0.1,
+    "n_iter_disc": 3,
+    "learning_rate": 0.0001,
+    "batch_discriminator_learning_rate": 0.0003,
+    "domain_discriminator_learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "warmup_epochs": 30,
+    "ramp_epochs": 30,
+    "replay_capacity": 4096
+  },
+  "release": {
+    "repository": "punyung/scmolt",
+    "tag": "v0.1.0",
+    "checkpoints": {
+      "mask20": {
+        "mask_percent": 20,
+        "filename": "scmolt-cell-c-bmmc-mask20-seed1234-epoch1000.pt",
+        "bytes": 94234219,
+        "sha256": "ce169f3fdaa3edd333e9f284d4c682eea86570d39738095854c46e27fc208cfd"
+      },
+      "mask40": {
+        "mask_percent": 40,
+        "filename": "scmolt-cell-c-bmmc-mask40-seed1234-epoch1000.pt",
+        "bytes": 94234219,
+        "sha256": "374722f55461045f8cc8b544279fbc12fa0170f3d8fed67710e1f7c7e0069f11"
+      },
+      "mask60": {
+        "mask_percent": 60,
+        "filename": "scmolt-cell-c-bmmc-mask60-seed1234-epoch1000.pt",
+        "bytes": 94234219,
+        "sha256": "59c24f8b66ba9fd7cb9cadb0b3ae400e5a1587d77668312a24cfacc4f8c5c9c1"
+      },
+      "mask80": {
+        "mask_percent": 80,
+        "filename": "scmolt-cell-c-bmmc-mask80-seed1234-epoch1000.pt",
+        "bytes": 94234219,
+        "sha256": "58e3ae6aee1152db86b47b91a95a8366fe0c74831ccb920b7f9e3cad1a4562f0"
+      }
+    }
+  }
+}
