@@ -6,6 +6,12 @@ model for BMMC Multiome RNA-missingness sensitivity: Track C W14-D40/C3 with a
 missingness-conditioned batch adversary (1.25), paired RNA-anchor consistency
 (5.0), and 25% RNA/ATAC feature re-masking.
 
+The repository also includes the **FrozenBridge65** tri-modal training and
+prediction runner (RNA + ATAC + ADT), including its bidirectional ATAC-ADT
+bridge and all-modality re-masking contract. See
+[FROZENBRIDGE65.md](FROZENBRIDGE65.md). This runner is code-only; it does not
+turn the v0.1.0 Cell C checkpoints into tri-modal or cross-dataset weights.
+
 This repository deliberately separates source and small scientific receipts
 from weights. The four 94 MB checkpoints belong in the GitHub Release
 `v0.1.0`; no checkpoint, private input, cell-level prediction, label, or
@@ -114,6 +120,9 @@ RNA inputs, when present, are raw counts in the exact RNA feature order. See
 
 - `src/scmolt/trackc/`: model, losses, Gaussian transport, replay, and
   leakage-safe re-masking primitives.
+- `src/scmolt/trackc_adbridge/`: the bidirectional ATAC-ADT Gaussian bridge.
+- `src/scmolt/frozenbridge65/`: fixed 65-epoch tri-modal train, strict-load,
+  prediction, input-audit, and smoke-test entrypoints.
 - `src/scmolt/checkpoint.py`: safe payload inspection, model reconstruction,
   feature validation, and strict loading.
 - `src/scmolt/configs/cell_c_bmmc.json`: sanitized architecture and Release

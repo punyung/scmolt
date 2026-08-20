@@ -6,8 +6,15 @@ dependencies:
   - pip
   - pip:
       - anndata==0.10.8
+      - h5py==3.14.0
+      - lightning==2.6.0
+      - natsort>=8.4,<9
       - numpy==1.26.4
       - pandas==2.3.3
+      - PyYAML==6.0.3
+      - scikit-learn==1.6.1
+      - scipy==1.13.1
       - scmidas==0.1.13
+      - toml==0.10.2
       - torch==2.8.0
       - -e .

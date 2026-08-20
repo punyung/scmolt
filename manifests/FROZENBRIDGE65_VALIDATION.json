@@ -1,0 +1,125 @@
+{
+  "schema_version": "scmolt.frozenbridge65-validation.v1",
+  "created_at": "2026-08-19T18:09:59-04:00",
+  "status": "pass",
+  "publication_state": "code_only_feature_branch_candidate_not_released",
+  "method": {
+    "slug": "frozen_old_bridge_65",
+    "name": "Frozen Old-Bridge TrackC W14-D40/C3 + MissAdv1.25 + PairAnchor5 + ATAC-ADT bridge + RNA/ATAC/ADT remask25 (65 epochs)",
+    "seed": 1234,
+    "epochs": 65,
+    "formal_training_replay_through_portable_runner": false,
+    "formal_training_replay_note": "The portable runner was optimizer-smoked and the original epoch-65 checkpoint was strict-loaded; no new formal 65-epoch result is claimed by packaging."
+  },
+  "source": {
+    "manifest": "manifests/FROZENBRIDGE65_SOURCE_MANIFEST.json",
+    "manifest_sha256": "83693622f760c460361cade7a7a5a5b5f6ea8734b85bdf9ea35ecb2b4298a603",
+    "locked_core_files": 9,
+    "canonical_trackc_files_byte_identical": true,
+    "adbridge_namespace_adaptation_only": true
+  },
+  "runtime": {
+    "python": "3.10.20",
+    "scmidas": "0.1.13",
+    "torch": "2.8.0+cu128",
+    "lightning": "2.6.0",
+    "numpy": "1.26.4",
+    "pandas": "2.3.3",
+    "scipy": "1.13.1",
+    "h5py": "3.14.0",
+    "scikit_learn": "1.6.1",
+    "pyyaml": "6.0.3",
+    "toml": "0.10.2"
+  },
+  "validation": {
+    "static_config_and_source_lock": "pass",
+    "targeted_pytest": {
+      "status": "pass",
+      "passed": 5,
+      "failed": 0
+    },
+    "optimizer_smoke": {
+      "status": "pass",
+      "device": "cpu",
+      "formal_epochs_completed": 0,
+      "batches_completed": 4,
+      "observed_combinations": [
+        ["rna", "adt"],
+        ["atac", "adt"],
+        ["rna", "atac"],
+        ["atac"]
+      ],
+      "paired_bridge_steps_exercised": 1,
+      "paired_bridge_active_directions": 2,
+      "paired_bridge_gradient_l1": 1989.9679145812988,
+      "all_decoder_gradient_l1_positive": true,
+      "atac_only_adt_route_shape": [4, 8]
+    },
+    "reference_epoch65_checkpoint": {
+      "status": "pass",
+      "checkpoint_in_package": false,
+      "bytes": 23213051,
+      "sha256": "9caa1e16a906c51d40b3813392e72e5459ab01ed12fd8546cb34a15e74714480",
+      "epoch_completed": 65,
+      "strict_load": true,
+      "state_dict_keys": 450,
+      "missing_keys": 0,
+      "unexpected_keys": 0,
+      "native_modality_order": ["rna", "atac", "adt"],
+      "forward_rows": 4,
+      "joint_latent_shape": [4, 34],
+      "biological_embedding_dimensions": 32,
+      "reconstruction_shapes": {
+        "rna": [4, 1000],
+        "atac": [4, 3000],
+        "adt": [4, 200]
+      },
+      "all_outputs_finite": true
+    },
+    "portable_checkpoint_prediction_roundtrip": {
+      "status": "pass",
+      "scientific_result": false,
+      "note": "An untrained temporary model was used only to exercise serialization and HDF5 plumbing.",
+      "strict_load": true,
+      "missing_keys": 0,
+      "unexpected_keys": 0,
+      "hash_input_on_save_and_off_on_reload_schema_match": true,
+      "joint_embedding_shape": [64, 32],
+      "imputation_shapes": {
+        "rna": [32, 16],
+        "atac": [16, 16],
+        "adt": [32, 8]
+      },
+      "atac_only_adt_bridge_batch_count": 1
+    },
+    "wheel": {
+      "status": "pass",
+      "filename": "scmolt-0.1.0-py3-none-any.whl",
+            "bytes": 71919,
+            "sha256": "3ecb08b6a8357d09ef140ae5fd12c5f204567e4a54408c8ec20b74a988e48096",
+      "installed_wheel_import": "pass",
+      "installed_wheel_source_lock": "pass",
+      "frozenbridge_console_entrypoints_present": true
+    },
+    "publication_audit": {
+      "status": "pass",
+      "cluster_absolute_paths": 0,
+      "secrets": 0,
+      "forbidden_data_or_weight_files": 0,
+      "files_over_10_mib": 0
+    }
+  },
+  "data_boundary": {
+    "real_data_in_package": false,
+    "labels_in_package": false,
+    "held_out_truth_in_package": false,
+    "cell_level_predictions_in_package": false,
+    "trained_frozenbridge_weights_in_package": false,
+    "truth_opened_during_smoke_or_checkpoint_forward_probe": false
+  },
+  "existing_release_boundary": {
+    "cell_c_v0_1_0_assets_modified": false,
+    "cell_c_v0_1_0_assets_in_code_zip": false,
+    "note": "The existing four Cell C 1000-epoch release assets remain separate and are not tri-modal FrozenBridge65 weights."
+  }
+}
