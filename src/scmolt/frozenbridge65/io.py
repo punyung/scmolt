@@ -93,6 +93,59 @@ def _cell_ids(path: Path) -> list[str]:
     return ids
 
 
+BATCH_GROUPS_FILE = "batch_groups.toml"
+
+
+def read_batch_groups(input_dir: Path, batch_names: list[str]) -> dict[str, str] | None:
+    """Read the optional ``feat/batch_groups.toml``, which maps batch folders to shared batches.
+
+    Without the file every folder is its own batch, as in native MIDAS. With it,
+    folders mapped to the same name share one batch label, for example the cells
+    of a batch whose ADT was withheld and the remaining cells of that batch.
+    """
+    path = input_dir / "feat" / BATCH_GROUPS_FILE
+    if not path.is_file():
+        return None
+    raw = toml.load(path)
+    if set(raw) != set(batch_names):
+        raise ValueError(
+            f"{path} must map exactly the batch folders {batch_names}; got {sorted(raw)}"
+        )
+    groups = {name: raw[name] for name in batch_names}
+    if not all(isinstance(value, str) and value for value in groups.values()):
+        raise ValueError(f"{path}: every batch folder must map to a non-empty batch name")
+    return groups
+
+
+def grouped_batch_labels(
+    batch_names: list[str],
+    observed: Mapping[str, Iterable[str]],
+    groups: Mapping[str, str],
+) -> dict[str, dict[str, int]]:
+    """Batch labels of every folder, assigned as native MIDAS does but counted over shared batches.
+
+    The joint label is the index of the shared batch in order of first appearance;
+    the label of a modality is the index among the shared batches that measure it.
+    Mapping every folder to its own name reproduces the native labels.
+    """
+    order = list(dict.fromkeys(groups[name] for name in batch_names))
+    measuring: dict[str, list[str]] = {}
+    for group in order:
+        for name in batch_names:
+            if groups[name] != group:
+                continue
+            for modality in observed[name]:
+                if group not in measuring.setdefault(modality, []):
+                    measuring[modality].append(group)
+    return {
+        name: {
+            "joint": order.index(groups[name]),
+            **{modality: measuring[modality].index(groups[name]) for modality in observed[name]},
+        }
+        for name in batch_names
+    }
+
+
 def native_batch_names(input_dir: Path) -> list[str]:
     return list(
         natsort.natsorted(
@@ -211,6 +264,17 @@ def validate_input(input_dir: Path, *, hash_contents: bool = False) -> dict[str,
         "batches": batches,
         "content_tree_sha256": tree_hash(root) if hash_contents else None,
     }
+    groups = read_batch_groups(root, batch_names)
+    if groups is not None:
+        # Only present with feat/batch_groups.toml, so inputs without it keep their schema hash.
+        schema["batch_groups"] = {
+            "groups": groups,
+            "labels": grouped_batch_labels(
+                batch_names,
+                {name: record["observed_modalities"] for name, record in batches.items()},
+                groups,
+            ),
+        }
     digest_view = json.loads(json.dumps(schema))
     digest_view.pop("input_dir")
     # Full content hashing is an optional, potentially expensive audit. It must

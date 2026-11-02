@@ -37,14 +37,27 @@ cells (RNA and ATAC), six assay-by-block batches.
 **Preprocessing** (Supplementary Material). The 4,000 genes shared by both assays are ranked by count variance
 divided by mean, keeping 72 predefined hematopoietic markers. Peaks detected in fewer than 12 cells are removed and the
 50,000 most frequently accessible peaks are kept. The 134 ADT features exclude the isotype controls. Before training,
-the ADT of a random subset of CITE-seq cells and the ATAC of a random subset of Multiome cells are withheld (seed
-2026) for the holdout evaluation; these cells keep their RNA.
+the ADT of 2,948 CITE-seq cells and the ATAC of 4,442 Multiome cells are withheld (seed 2026) for the holdout
+evaluation; these cells keep their RNA. [`bmmc/cells.csv.gz`](bmmc/cells.csv.gz) and
+[`bmmc/features.csv.gz`](bmmc/features.csv.gz) list the selected cells, with their holdout status, and the selected
+features.
 
-**Run.** Write the RNA, ADT and ATAC count matrices with `scmolt.write_midas_input` and train with RNA as the anchor:
+**Run.**
 
 ```bash
+python experiments/bmmc/prepare_bmmc.py \
+  --cite GSE194122_openproblems_neurips2021_cite_BMMC_processed.h5ad \
+  --multiome GSE194122_openproblems_neurips2021_multiome_BMMC_processed.h5ad \
+  --output-dir bmmc_input
 PYTHONHASHSEED=1234 scmolt-train --input-dir bmmc_input --output-dir bmmc_run --device cuda --hash-input
 ```
+
+`prepare_bmmc.py` writes each assay-by-block batch as two folders, the cells that keep both modalities and the holdout
+cells with RNA only, and `feat/batch_groups.toml` gives the two folders one shared batch label, as in the paper's run.
+We checked that the input it writes from the GEO files is byte-identical to the training data of the paper's run. On
+this input, `scmolt-train`'s model construction strict-loads the paper's trained model, and its prediction export
+reproduces the paper's embedding of all 36,951 cells (largest difference 2.4e-6) and its predicted ADT and ATAC (relative
+difference below 1.4e-5). The withheld ADT and ATAC are read from the same GEO files for evaluation.
 
 ## PBMC Multiome and TotalSeq-C (Supplementary Material)
 

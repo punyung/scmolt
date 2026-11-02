@@ -130,6 +130,7 @@ def write_midas_input(
     *,
     batch_key: str = "batch",
     layout: Mapping[str, Any] | None = None,
+    batch_groups: Mapping[str, str] | None = None,
     overwrite: bool = False,
 ) -> Path:
     """Write one AnnData per modality as a native MIDAS input directory.
@@ -145,6 +146,12 @@ def write_midas_input(
         Optional ``{batch: modalities measured in the batch}``, used to build a
         pseudo-mosaic from fully measured data. By default a modality counts as
         measured in a batch whenever its AnnData contains cells of that batch.
+    batch_groups
+        Optional ``{batch: shared batch}``, written to ``feat/batch_groups.toml``.
+        Batches mapped to the same name share one batch label in ``scmolt-train``,
+        for example the cells of a batch whose ADT was withheld for evaluation and
+        the other cells of that batch. Batch folders are ordered by natural sort
+        of their names.
     overwrite
         Replace an existing ``output_dir``.
 
@@ -190,4 +197,10 @@ def write_midas_input(
             _write_matrix(adata, modality, positions, cells, features[modality],
                           root / str(batch) / "mat" / f"{modality}.csv")
             _write_mask(features[modality], root / str(batch) / "mask" / f"{modality}.csv")
+    if batch_groups is not None:
+        if set(map(str, batch_groups)) != set(map(str, layout)):
+            raise ValueError("batch_groups must map every batch to a shared batch")
+        (root / "feat" / "batch_groups.toml").write_text(
+            "".join(f'"{batch}" = "{batch_groups[batch]}"\n' for batch in sorted(batch_groups)),
+            encoding="utf-8")
     return root

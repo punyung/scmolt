@@ -90,7 +90,8 @@ The same is available on the command line as `scmolt prepare-input --rna rna.h5a
 least one batch. It trains with the settings of the paper (seed 1234, 65 epochs with 30 warm-up and 30 ramp epochs,
 minibatches of 256 cells) and has no options to change them. `scmolt-predict --input-dir my_input --checkpoint
 my_run/model_state_epoch65.pt --output-dir my_pred` recomputes the predictions from a saved model. See
-[docs/usage.md](docs/usage.md) for the input format, the outputs and the checks that the runners make.
+[docs/usage.md](docs/usage.md) for the input format, the outputs and the checks that the runners make, and for
+`batch_groups`, which lets cells whose ADT or ATAC was withheld keep the batch label of their batch.
 
 ## DOGMA-seq pseudo-mosaics
 

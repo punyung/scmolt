@@ -76,6 +76,8 @@ def configure_context(
     if drift and not allow_runtime_drift:
         raise RuntimeError(f"Runtime versions differ from environment.yml: {drift}")
     manifest = validate_input(input_dir, hash_contents=hash_input)
+    if manifest.get("batch_groups") is not None:
+        raise ValueError("feat/batch_groups.toml is supported by scmolt-train only")
     validate_topology(manifest, configuration)
     if runtime_dir.exists() and any(runtime_dir.iterdir()):
         raise RuntimeError(f"Runtime directory is not empty: {runtime_dir}")

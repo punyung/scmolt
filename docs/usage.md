@@ -41,7 +41,24 @@ INPUT/
 - Within a batch, every modality lists the same cells in the same order. Cell IDs are unique across batches.
 - RNA and ADT are raw counts. ATAC is binarized when it is read.
 - Batches are ordered by their folder names (natural sort). Each folder is one batch of the batch-label likelihood and
-  the batch adversary.
+  the batch adversary, unless `feat/batch_groups.toml` maps several folders to one shared batch (below).
+
+### Folders that share a batch
+
+All cells of a folder measure the same modalities. To withhold a modality from some cells of a batch, for example to
+evaluate its prediction, put those cells in a folder of their own and list both folders in `feat/batch_groups.toml`:
+
+```toml
+"01_cite_s1d1" = "cite_s1d1"
+"02_cite_s1d1_holdout" = "cite_s1d1"
+"03_multiome_s1d1" = "multiome_s1d1"
+"04_multiome_s1d1_holdout" = "multiome_s1d1"
+```
+
+The file maps every folder to a batch name, and folders with the same name share one batch label: the joint label is
+the index of the batch in order of first appearance, and the label of a modality is the index among the batches that
+measure it. Without the file, every folder is its own batch, as in native MIDAS. `write_midas_input(...,
+batch_groups=...)` writes the file. Only `scmolt-train` reads it; `scmolt-anchor-train` stops if it is present.
 
 `scmolt.write_midas_input` (Python) and `scmolt prepare-input` (command line) write this directory from one AnnData
 per modality and check these rules. Labels and held-out measurements must stay outside the input directory; the

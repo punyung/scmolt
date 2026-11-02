@@ -184,6 +184,52 @@ def _build_model(
     return model
 
 
+def _configure_grouped_data(
+    midas: Any,
+    native_config: Mapping[str, Any],
+    input_dir: Path,
+    runtime_dir: Path,
+    manifest: Mapping[str, Any],
+) -> Any:
+    """``MIDAS.configure_data_from_dir`` with the shared batch labels of ``feat/batch_groups.toml``.
+
+    The datasets keep their label dictionaries by reference, so relabelling them
+    before ``configure_data`` sets both the labels of every minibatch and the
+    batch dimensions of the native modules built there.
+    """
+    root = str(Path(input_dir).expanduser().resolve())
+    data, mask, dims_x = midas.get_info_from_dir(root, "csv")
+    datalist, dims_s, s_joint, combs = midas.get_datasets_from_dir(
+        data, mask, {"atac": "binarize"}, "csv"
+    )
+    labels = manifest["batch_groups"]["labels"]
+    batch_names = list(manifest["batch_order"])
+    if len(batch_names) != len(s_joint):
+        raise RuntimeError("Native batch folders differ from the validated input")
+    for name, record in zip(batch_names, s_joint):
+        if set(record) != set(labels[name]):
+            raise RuntimeError(f"{name}: native modalities differ from the validated input")
+        record.update(labels[name])
+    dims_s = {
+        key: 1 + max(record[key] for record in s_joint if key in record) for key in dims_s
+    }
+    midas.start_epoch = 0
+    midas.load_optimizer_state = False
+    return midas.configure_data(
+        native_config,
+        datalist,
+        dims_x,
+        dims_s,
+        s_joint,
+        combs,
+        save_model_path=str((runtime_dir / "native_checkpoints").resolve()),
+        batch_size=BATCH_SIZE,
+        n_save=EPOCHS + 1,
+        sampler_type="auto",
+        viz_umap_tb=False,
+    )
+
+
 def configure_context(
     *,
     input_dir: Path,
@@ -225,17 +271,22 @@ def configure_context(
     native_config = dict(installed)
     native_config["lam_alignment"] = 0.0
     native_config["lam_dsc"] = 40.0
-    native = MIDAS.configure_data_from_dir(
-        native_config,
-        str(Path(input_dir).expanduser().resolve()),
-        transform={"atac": "binarize"},
-        save_model_path=str((runtime_dir / "native_checkpoints").resolve()),
-        format="csv",
-        batch_size=BATCH_SIZE,
-        n_save=EPOCHS + 1,
-        sampler_type="auto",
-        viz_umap_tb=False,
-    )
+    if manifest.get("batch_groups") is None:
+        native = MIDAS.configure_data_from_dir(
+            native_config,
+            str(Path(input_dir).expanduser().resolve()),
+            transform={"atac": "binarize"},
+            save_model_path=str((runtime_dir / "native_checkpoints").resolve()),
+            format="csv",
+            batch_size=BATCH_SIZE,
+            n_save=EPOCHS + 1,
+            sampler_type="auto",
+            viz_umap_tb=False,
+        )
+    else:
+        native = _configure_grouped_data(
+            MIDAS, native_config, input_dir, runtime_dir, manifest
+        )
     native_loader = native.train_dataloader()
     sampler = native_loader.sampler
     required_sampler = {
