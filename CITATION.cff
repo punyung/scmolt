@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use scMoLT, please cite the paper below."
+title: "scMoLT: Gaussian posterior transport for mosaic integration of single-cell multi-omics data"
+authors:
+  - family-names: Pan
+    given-names: Rong
+    affiliation: "Department of Epidemiology and Biostatistics, University of Maryland, College Park"
+  - family-names: Ma
+    given-names: Tianzhou
+    affiliation: "Department of Epidemiology and Biostatistics, University of Maryland, College Park"
+version: 1.0.0
+license: MIT
+repository-code: "https://github.com/punyung/scmolt"
+preferred-citation:
+  type: conference-paper
+  title: "scMoLT: Gaussian posterior transport for mosaic integration of single-cell multi-omics data"
+  authors:
+    - family-names: Pan
+      given-names: Rong
+    - family-names: Ma
+      given-names: Tianzhou
+  conference:
+    name: "RECOMB 2027 (submitted)"
+  year: 2026

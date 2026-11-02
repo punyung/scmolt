@@ -1,0 +1,25 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.cache/
+.coverage
+.pytest_cache/
+.venv/
+build/
+dist/
+
+# Model weights, data and run outputs are not part of the repository.
+*.ckpt
+*.pt
+*.pth
+data/
+runs/
+experiments/**/inputs/
+experiments/**/results/
+*.h5
+*.h5ad
+*.h5mu
+*.loom
+*.npy
+*.npz
+*.zarr/

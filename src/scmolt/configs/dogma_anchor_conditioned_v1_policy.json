@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "model_family": "anchor_conditioned_v1",
+  "revision": "20260915_diagonal_full_rna",
+  "seed": 1234,
+  "epochs": 65,
+  "anchors": {
+    "full": "RNA",
+    "paired+full": "ATAC",
+    "paired-abc": "RNA",
+    "paired-ab": "ATAC",
+    "paired-ac": "RNA",
+    "paired-bc": "ADT",
+    "diagonal+full": "RNA",
+    "diagonal": "RNA"
+  },
+  "changed_configuration": "diagonal+full",
+  "previous_anchor": "ATAC",
+  "selected_run": "artifacts/experiments/dogma_real_user_table_v2_frozen_oldbridge65_vs_scmidas65_20260819/diagonal+full/frozen_old_bridge",
+  "previous_selected_run": "artifacts/experiments/dogma_atacgraph_constructioncompat_all8_20260826/diagonal+full/constructioncompat",
+  "rationale": "Use RNA as the default center when diagonal+full has no unique structural hub; the fully observed batch provides paired supervision. Retain the other seven assignments, including the historical paired+full ATAC choice.",
+  "selection_scope": "Retrospective manuscript allocation of independently trained complete branch runs; all integration and imputation metrics for a configuration use the same run.",
+  "independent_policy_validation": false,
+  "new_model_training": false
+}
