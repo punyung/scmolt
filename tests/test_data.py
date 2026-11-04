@@ -1,4 +1,4 @@
-"""AnnData to native MIDAS input conversion."""
+"""AnnData to native input conversion."""
 
 import numpy as np
 import pandas as pd

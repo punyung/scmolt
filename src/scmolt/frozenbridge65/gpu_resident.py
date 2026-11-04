@@ -1,7 +1,7 @@
-"""GPU-resident training batches with the exact native scMIDAS sampler.
+"""GPU-resident training batches with the exact native sampler.
 
 This module is deliberately standalone until the W0 baselines are complete.
-It does not replace or patch the installed ``scmidas`` package.  The native
+It does not replace or patch the installed base package.  The native
 ``MultiBatchSampler`` remains the sole authority for sample order; this file
 only materializes its indices into fresh, contiguous device batches.
 """
@@ -28,7 +28,7 @@ class OwnedResidentBatch(dict):
     """A native-contract mapping whose ``x`` tensors are fresh and disposable.
 
     The marker is an attribute rather than a mapping key, so the exact
-    ``{"x", "s", "e"}`` scMIDAS input contract is unchanged.  Track C can
+    ``{"x", "s", "e"}`` native input contract is unchanged.  Track C can
     consequently avoid cloning an already-fresh ``index_select`` result.
     """
 
@@ -48,11 +48,12 @@ class _ZeroDataset(Dataset):
 def _consume_native_first_iterator_base_seed() -> None:
     """Consume exactly the global CPU base seed used by a native DataLoader.
 
-    scMIDAS uses a persistent-worker DataLoader.  Its first iterator consumes
-    one global CPU-torch random integer for worker base seeding, while later
-    epoch resets do not.  The resident DataLoader has a private generator, so
-    this one-time dummy iterator reproduces the native global-RNG transition
-    using PyTorch's own implementation rather than duplicating internals.
+    Native training uses a persistent-worker DataLoader.  Its first iterator
+    consumes one global CPU-torch random integer for worker base seeding,
+    while later epoch resets do not.  The resident DataLoader has a private
+    generator, so this one-time dummy iterator reproduces the native
+    global-RNG transition using PyTorch's own implementation rather than
+    duplicating internals.
     """
 
     loader = DataLoader(_ZeroDataset(), batch_size=None, num_workers=0)
@@ -210,7 +211,7 @@ def build_gpu_cache(
                 device=target, dtype=torch.float32, copy=True
             )
             if modality == "atac":
-                # This exactly matches scmidas TransformRegistry.binarize.
+                # Binarize exactly as the native data transform does.
                 tensor = (tensor > 0.5).to(dtype=torch.float32)
             x[modality] = tensor.contiguous()
 
@@ -453,7 +454,7 @@ def build_gpu_resident_loader(
         required = {
             "type": "MultiBatchSampler",
             "batch_size": int(batch_size),
-            # scmidas.data.MultiBatchSampler stores the effective cap rather
+            # The native MultiBatchSampler stores the effective cap rather
             # than the requested one. Small datasets therefore legitimately
             # expose max(dataset sizes), while the formal protocol still
             # requests n_max=10,000.

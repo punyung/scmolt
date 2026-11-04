@@ -1,4 +1,4 @@
-"""Portable native-scMIDAS construction, training, reload, and export."""
+"""Portable native-model construction, training, reload, and export."""
 
 from __future__ import annotations
 
@@ -191,7 +191,7 @@ def _configure_grouped_data(
     runtime_dir: Path,
     manifest: Mapping[str, Any],
 ) -> Any:
-    """``MIDAS.configure_data_from_dir`` with the shared batch labels of ``feat/batch_groups.toml``.
+    """``configure_data_from_dir`` with the shared batch labels of ``feat/batch_groups.toml``.
 
     The datasets keep their label dictionaries by reference, so relabelling them
     before ``configure_data`` sets both the labels of every minibatch and the

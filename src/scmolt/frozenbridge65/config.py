@@ -49,15 +49,15 @@ EXPECTED_VERSIONS = {
 }
 
 EXPECTED_CORE_SOURCE_SHA256 = {
-    "scmolt/trackc/__init__.py": "344915df67c385b38d4952e9c9157eb950319980b68df89092fef4b534ad359e",
-    "scmolt/trackc/config.py": "8c3e0c56e4ee9900ac75b2e313c5144b8498c27f96023b39f6f5291eac6b742a",
-    "scmolt/trackc/gaussian.py": "dcef797352954213ad959f182f7b3e83b9af5e6fe0354deb160259f001f8357b",
-    "scmolt/trackc/model.py": "f2b32f9be47265242067f19dc7de284ae0e79fd2862528d4f405aeaca4583cbb",
-    "scmolt/trackc/modules.py": "af8b6332ace4ccc1a3634874a4e4bffca56486a4478fc46c801c9c022b78a0a7",
+    "scmolt/trackc/__init__.py": "aaae27744fc337a1ff014748273b5b21e90ce8a5c88b20adea40ed1f7ca39efb",
+    "scmolt/trackc/config.py": "bd7c911629b0b399624027e29b67e2a73216133feac987723426d6d306993122",
+    "scmolt/trackc/gaussian.py": "d4aa54198e5bf16059c9f5dcb309a566480ec6c0dab755ff45cd87e8bc1dfff5",
+    "scmolt/trackc/model.py": "e3818a123a630dc5b2f1e095b1f82bc9eb19d7a96fdcecd3e53d805aac2746b7",
+    "scmolt/trackc/modules.py": "b609e4c1df430b18637f4327d76eb3c222b4bb420ef9b3db47691b5bd3789060",
     "scmolt/trackc/remasking.py": "4f46650e6d338daa12389999177a6b4bb980604df089fe3f8fb871db9ed3ceb0",
     "scmolt/trackc/replay.py": "b5f1d6f0549b0c65e3992ea58aa01469a1caa9e36e31fb510e1e241616a13d38",
     "scmolt/trackc_adbridge/__init__.py": "45195dccbec8e0c1778a627aba5a6220f8a132f736733ce7ad3ca69b50498d9a",
-    "scmolt/trackc_adbridge/model.py": "38eaf0b290fd0e9465fb729e8e7af6f3b2c3c36f6a7a41b8a00560b6bcf625d3",
+    "scmolt/trackc_adbridge/model.py": "d89b2afb2b1ff9c94111fd7a532684dbddfb0df66fb8d1b973eacb2cb275d871",
 }
 
 
@@ -66,7 +66,7 @@ def core_config(*, topology_alias: str = "full") -> TrackCConfig:
 
     The C3 alignment weight is zero for every alias. The alias is recorded for
     provenance; actual missingness is determined solely by the files present in
-    each native MIDAS batch directory.
+    each native batch directory.
     """
 
     return TrackCConfig(

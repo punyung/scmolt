@@ -1,4 +1,4 @@
-"""Neural components for the isolated MIDAS-Cycle Track C model."""
+"""Neural components for the isolated Cycle Track C model."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ def _hidden_block(width: int, dropout: float) -> list[nn.Module]:
 
 
 class DenseMLP(nn.Module):
-    """MIDAS-style Linear/LayerNorm/Mish/Dropout MLP."""
+    """Linear/LayerNorm/Mish/Dropout MLP."""
 
     def __init__(
         self,

@@ -1,4 +1,4 @@
-"""Native-scMIDAS-backed joint Cycle transport for isolated Track C."""
+"""Joint Cycle transport for isolated Track C on the native modules."""
 
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ REQUIRED_SCMIDAS_VERSION = "0.1.13"
 
 @dataclass(frozen=True)
 class TrackCForward:
-    """One native MIDAS forward plus the variant-specific joint posterior."""
+    """One native forward plus the variant-specific joint posterior."""
 
     inputs: Mapping[str, Tensor]
     event_masks: Mapping[str, Tensor]
@@ -157,7 +157,7 @@ class TrackCLosses:
 
 
 class TrackCMIDASCycle(nn.Module):
-    """Wrap scMIDAS 0.1.13 and add only Track C Gaussian transport.
+    """Wrap the native VAE and add only Track C Gaussian transport.
 
     C0/C1 call the installed native ``VAE.forward`` unchanged. Forward hooks
     observe the exact posterior parameters from that same pass, so no encoder
@@ -165,7 +165,7 @@ class TrackCMIDASCycle(nn.Module):
     replaces only the biological fusion with RNA-canonical translated PoE and
     retains native technical experts, full batch expert, prior, and decoder.
 
-    The accepted batch format is the native scMIDAS contract::
+    The accepted batch format is the native contract::
 
         {"x": {mod: [B,D]}, "e": {mod: event mask},
          "s": {mod: batch target, "joint": global batch target}}
@@ -211,7 +211,7 @@ class TrackCMIDASCycle(nn.Module):
         )
         self._midas_loss_api = midas_class
 
-        # Native MIDAS construction ends after VAE + discriminator. Building
+        # Native construction ends after VAE + discriminator. Building
         # Track C-only modules must not advance the global RNG seen by the
         # first native forward (critical for exact C0 parity).
         with torch.random.fork_rng(devices=[]):
@@ -226,7 +226,7 @@ class TrackCMIDASCycle(nn.Module):
         )
         # Keep the two observation hooks for the lifetime of the wrapper.
         # Registering/removing Python hooks every minibatch is pure overhead and
-        # does not change what the native scMIDAS forward computes.
+        # does not change what the native forward computes.
         self._native_forward_capture: Optional[Dict[str, Any]] = None
         self._native_encoder_capture_handle = (
             self.native_vae.encoder.register_forward_hook(
@@ -570,7 +570,7 @@ class TrackCMIDASCycle(nn.Module):
 
         joint_c, joint_u = output.joint.split((self.config.dim_c, self.config.dim_u))
         batch_size = output.latent.shape[0]
-        # Native MIDAS sums KL over rows and coordinates, then divides by B.
+        # The native loss sums KL over rows and coordinates, then divides by B.
         kld_c = self._midas_loss_api.calc_kld_loss(joint_c.mean, joint_c.logvar)
         kld_u = self._midas_loss_api.calc_kld_loss(joint_u.mean, joint_u.logvar)
         kld_weighted = self.config.lam_kld * self._midas_loss_api.calc_kld_z_loss(
@@ -661,7 +661,7 @@ class TrackCMIDASCycle(nn.Module):
         else:
             paired_anchor_raw = paired_anchor_weighted = None
             paired_anchor_sources = None
-        # Preserve native MIDAS arithmetic/order for C0/C1 parity. The native
+        # Preserve the native arithmetic/order for C0/C1 parity. The native
         # reconstruction total already includes the weighted s reconstruction.
         base_main = (
             native_reconstruction_total * self.config.lam_recon
@@ -761,7 +761,7 @@ class TrackCMIDASCycle(nn.Module):
         """Native-distribution reconstruction loss for a held-out modality.
 
         The target is detached defensively, so gradients flow only through the
-        model.  Whole-modality re-masking retains native scMIDAS batch
+        model.  Whole-modality re-masking retains native batch
         normalization.  Feature-level re-masking can additionally request a
         mean over artificially hidden entries so RNA and ATAC losses remain
         comparable despite their very different feature counts.
@@ -1052,8 +1052,8 @@ class TrackCMIDASCycle(nn.Module):
             native = sum(native_terms, zero) / batch_size
             translated = sum(translated_terms, zero) / batch_size
             joint = joint_term / batch_size
-            # For C0/C1 this has the same ordered sum as native
-            # MIDAS.calc_dsc_loss: modality predictors followed by joint.
+            # For C0/C1 this has the same ordered sum as the native
+            # discriminator loss: modality predictors followed by joint.
             ordered_terms = native_terms + translated_terms + [joint_term]
             total = sum(ordered_terms, zero) / batch_size
         return native, translated, joint, total
@@ -1081,7 +1081,7 @@ class TrackCMIDASCycle(nn.Module):
     ) -> tuple[Tensor, Tensor]:
         """Align paired non-RNA posteriors to an observed, detached RNA anchor.
 
-        Native MIDAS minibatches are homogeneous modality configurations, so
+        Native minibatches are homogeneous modality configurations, so
         the presence of ``rna`` in ``output.inputs`` proves that every row in
         this minibatch has observed RNA.  ATAC-only masked groups therefore
         return an exact zero without consulting any manifest or truth file.

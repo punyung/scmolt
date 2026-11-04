@@ -99,7 +99,7 @@ BATCH_GROUPS_FILE = "batch_groups.toml"
 def read_batch_groups(input_dir: Path, batch_names: list[str]) -> dict[str, str] | None:
     """Read the optional ``feat/batch_groups.toml``, which maps batch folders to shared batches.
 
-    Without the file every folder is its own batch, as in native MIDAS. With it,
+    Without the file every folder is its own batch, as in the native input. With it,
     folders mapped to the same name share one batch label, for example the cells
     of a batch whose ADT was withheld and the remaining cells of that batch.
     """
@@ -122,7 +122,7 @@ def grouped_batch_labels(
     observed: Mapping[str, Iterable[str]],
     groups: Mapping[str, str],
 ) -> dict[str, dict[str, int]]:
-    """Batch labels of every folder, assigned as native MIDAS does but counted over shared batches.
+    """Batch labels of every folder, assigned in the native order but counted over shared batches.
 
     The joint label is the index of the shared batch in order of first appearance;
     the label of a modality is the index among the shared batches that measure it.

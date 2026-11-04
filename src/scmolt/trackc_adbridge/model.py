@@ -162,7 +162,7 @@ class TrackCADBridgeMIDASCycle(TrackCMIDASCycle):
         if not {"rna", "atac", "adt"}.issubset(self.modalities):
             raise ValueError("ATAC--ADT bridge requires the full tri-modal model")
         self.bridge_config = bridge_config
-        # Do not advance the global RNG consumed by native scMIDAS or the parent
+        # Do not advance the global RNG consumed by the native modules or the parent
         # Track C graph.  The bridge has its own deterministic initialization.
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(self.config.seed + self.bridge_config.seed_offset)

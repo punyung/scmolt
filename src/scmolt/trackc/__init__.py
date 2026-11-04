@@ -1,4 +1,4 @@
-"""Public API for the isolated MIDAS-Cycle Joint Embedding Track C."""
+"""Public API for the isolated Cycle Joint Embedding Track C."""
 
 from .config import (
     MODALITIES,

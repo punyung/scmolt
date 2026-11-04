@@ -1,4 +1,4 @@
-"""Create synthetic native-MIDAS input with one exact DOGMA observation topology."""
+"""Create a synthetic native input with one exact DOGMA observation topology."""
 
 from __future__ import annotations
 

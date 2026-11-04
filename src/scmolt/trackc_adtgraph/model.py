@@ -7,7 +7,7 @@ The canonical biological graph is::
 All four directed translators are owned by one graph.  The ATAC--ADT edge
 retains the paired posterior-consistency and paired cross-decoding terms used
 by the clean ATAC-centered graph, but there is no separately registered bridge
-module.  Native scMIDAS encoders, decoders, likelihoods, and the full-z batch
+module.  Native encoders, decoders, likelihoods, and the full-z batch
 expert are unchanged.
 """
 
@@ -157,7 +157,7 @@ class TrackCADTCenteredMIDASCycle(TrackCATACCenteredMIDASCycle):
 
     The inherited edge-specific implementation remains valid because it acts
     on the ATAC--ADT pair and canonicalizes through ``transport.to_anchor``.
-    ``TrackCMIDASCycle.__init__`` is called directly to avoid constructing and
+    The base Track C ``__init__`` is called directly to avoid constructing and
     discarding an ATAC-centered graph before installing the ADT graph.
     """
 

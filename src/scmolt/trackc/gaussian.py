@@ -24,7 +24,7 @@ class GaussianPosterior:
 
     @property
     def mu(self) -> Tensor:
-        """scMIDAS-compatible alias."""
+        """Alias of ``mean``."""
 
         return self.mean
 
@@ -77,7 +77,7 @@ def gaussian_poe(
     include_standard_prior: bool = True,
     eps: float = 1e-8,
 ) -> GaussianPosterior:
-    """Prior-inclusive Product-of-Experts matching scMIDAS 0.1.13.
+    """Prior-inclusive Product-of-Experts matching the native fusion.
 
     Masks are row masks.  An inactive expert contributes exactly zero
     precision, while the standard-normal prior contributes unit precision.

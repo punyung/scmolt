@@ -74,7 +74,7 @@ def topology_alias(configuration: str) -> str:
 def validate_topology(manifest: Mapping[str, Any], configuration: str) -> None:
     """Reject a topology name that disagrees with the actual observed files.
 
-    Native MIDAS sorting determines training order; BATCH_ORDER only defines
+    Native batch sorting determines training order; BATCH_ORDER only defines
     the observation table and never reorders the input or native modules.
     """
     selected_anchor(configuration)

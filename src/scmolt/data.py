@@ -1,4 +1,4 @@
-"""Convert AnnData to the native MIDAS input of the scMoLT runners, and read their predictions.
+"""Convert AnnData to the native input directory of the scMoLT runners, and read their predictions.
 
 The directory layout is
 
@@ -133,7 +133,7 @@ def write_midas_input(
     batch_groups: Mapping[str, str] | None = None,
     overwrite: bool = False,
 ) -> Path:
-    """Write one AnnData per modality as a native MIDAS input directory.
+    """Write one AnnData per modality as a native input directory.
 
     Parameters
     ----------

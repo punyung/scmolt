@@ -1,4 +1,4 @@
-"""Create a deterministic tiny native-MIDAS tri-modal input for smoke tests."""
+"""Create a deterministic tiny native tri-modal input for smoke tests."""
 
 from __future__ import annotations
 

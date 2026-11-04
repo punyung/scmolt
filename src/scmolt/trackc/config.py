@@ -32,7 +32,7 @@ class TrackCVariant(str, Enum):
 
 @dataclass(frozen=True)
 class TrackCConfig:
-    """Faithful scMIDAS-0.1.13 defaults plus Track C transport controls.
+    """Faithful defaults of the native modules plus Track C transport controls.
 
     ``lam_alignment=None`` selects the protocol value (50 for C0 and zero for
     C1-C3).  Passing a contradictory explicit value is rejected instead of
@@ -57,7 +57,7 @@ class TrackCConfig:
     dropout: float = 0.2
     s_drop_rate: float = 0.1
     # Used only by standalone component tests; the executable model wraps the
-    # native scMIDAS batch modules, whose internal dropout is `drop=0.2`.
+    # native batch modules, whose internal dropout is `drop=0.2`.
     batch_dropout: float = 0.1
     logvar_min: float = -8.0
     logvar_max: float = 8.0
@@ -92,7 +92,7 @@ class TrackCConfig:
     learning_rate: float = 1e-4
     batch_discriminator_learning_rate: float = 1e-4
     domain_discriminator_learning_rate: float = 1e-4
-    # scMIDAS invokes torch.optim.AdamW without overriding its default.
+    # The native optimizer is torch.optim.AdamW with its default.
     weight_decay: float = 0.01
     warmup_epochs: int = 30
     ramp_epochs: int = 30
@@ -255,7 +255,7 @@ class TrackCConfig:
 
     @property
     def alignment_weight(self) -> float:
-        # With no co-observed rows the native MIDAS consistency term is
+        # With no co-observed rows the native consistency term is
         # mathematically zero; spelling this out avoids a redundant C0 run.
         if self.topology == "diagonal":
             return 0.0
