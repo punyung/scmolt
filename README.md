@@ -128,18 +128,6 @@ and Multiome application and the PBMC application, from the public data to the t
 | DOGMA-seq configurations and anchors (`scmolt-anchor-train`) | `anchor_conditioned/` |
 | AnnData input and output | `data.py` |
 
-## Citation
-
-```bibtex
-@inproceedings{pan2027scmolt,
-  title     = {{scMoLT}: Gaussian posterior transport for mosaic integration of single-cell multi-omics data},
-  author    = {Pan, Rong and Ma, Tianzhou},
-  booktitle = {Research in Computational Molecular Biology (RECOMB 2027)},
-  note      = {Under review},
-  year      = {2027}
-}
-```
-
 ## License
 
 scMoLT is released under the [MIT License](LICENSE). It uses scMIDAS (MIT License) as a dependency; see
