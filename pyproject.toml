@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "Gaussian posterior transport for mosaic integration of single-cell multi-omics data"
 readme = "README.md"
 license = "MIT"
-license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+license-files = ["LICENSE"]
 authors = [{ name = "Rong Pan" }, { name = "Tianzhou Ma" }]
 requires-python = ">=3.10,<3.13"
 keywords = ["single-cell", "multi-omics", "mosaic integration", "variational autoencoder", "CITE-seq", "ATAC-seq"]

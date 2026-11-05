@@ -22,8 +22,7 @@ the missing ones.
 - Keeps a 2-dimensional technical latent, fused without transport, apart from the 32-dimensional biological embedding
   used for integration.
 - Integrates mosaics of RNA, ADT and ATAC batches and predicts the missing modalities of every cell.
-- Builds on the encoders, decoders and data handling of [scMIDAS](https://github.com/labomics/midas) 0.1.13; one
-  65-epoch run on 36,951 bone marrow cells takes about 40 minutes on a single GPU.
+- One 65-epoch run on 36,951 bone marrow cells takes about 40 minutes on a single GPU.
 
 ## Installation
 
@@ -130,8 +129,7 @@ and Multiome application and the PBMC application, from the public data to the t
 
 ## License
 
-scMoLT is released under the [MIT License](LICENSE). It uses scMIDAS (MIT License) as a dependency; see
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+scMoLT is released under the [MIT License](LICENSE). It uses scMIDAS (MIT License) as a dependency.
 
 ## Contact
 
